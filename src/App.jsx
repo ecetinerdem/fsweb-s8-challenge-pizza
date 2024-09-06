@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import MainPage from './components/MainPage';
 import OrderForm from './components/OrderForm';
+import { toast, ToastContainer, Bounce } from 'react-toastify'; 
+import "react-toastify/dist/ReactToastify.css";
 
 
 function App() {
@@ -13,6 +15,19 @@ function App() {
         <Route exact path="/" component={MainPage} />
         <Route path="/orderform" component={OrderForm} />
       </Switch>
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
     </Router>
   );
 }
