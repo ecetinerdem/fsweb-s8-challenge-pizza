@@ -5,18 +5,17 @@ const HamurDropdown = () => {
 
   const handleSelect = (event) => {
     setSelectedOption(event.target.value);
-
   };
 
   return (
-    <div>
-      <h3>Hamur Seç*</h3>
+    <div style={{ marginTop: '30px' }}> 
+      <h4>Hamur Seç<span style={{ color: 'red' }}>*</span></h4>
       <select 
         value={selectedOption} 
         onChange={handleSelect} 
-        aria-label="Hamur Sec"
+        aria-label="Hamur Seç"
       >
-        <option value="" disabled>Seçim Yap</option>
+        <option value="" disabled>Hamur Kalınlığı</option>
         <option value="İnce kenar">İnce kenar</option>
         <option value="Kalın kenar">Kalın kenar</option>
         <option value="Peynirli kenar">Peynirli kenar</option>

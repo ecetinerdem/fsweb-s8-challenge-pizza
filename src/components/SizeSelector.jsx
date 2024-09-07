@@ -1,19 +1,43 @@
 import React, { useState } from 'react';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
+import styled from 'styled-components';
+
+
+const StyledHeading = styled.h4`
+  display: inline-block;
+  margin-bottom: 15px;  
+  &::after {
+    content: '*';
+    color: red;      
+    margin-left: 4px; 
+  }
+`;
+
+
+const RadioGroup = styled(FormGroup)`
+  margin-bottom: 10px;  
+`;
+
+
+const SizeSelectorContainer = styled(Form)`
+  margin-top: 10px;   
+`;
 
 const SizeSelector = () => {
-  const [selectedSize, setSelectedSize] = useState(''); 
+  const [selectedSize, setSelectedSize] = useState('');
 
-  
   const handleSizeSelect = (event) => {
-    setSelectedSize(event.target.value); 
+    setSelectedSize(event.target.value);
   };
 
   return (
-    <Form>
+    <SizeSelectorContainer>
       <FormGroup>
-        <h2>Boyut Seç*</h2>
-        <FormGroup check>
+        
+        <StyledHeading>Boyut Seç</StyledHeading>
+
+        
+        <RadioGroup check>
           <Label check for="boyut-kucuk">
             <Input 
               type="radio" 
@@ -25,8 +49,9 @@ const SizeSelector = () => {
             />
             Küçük
           </Label>
-        </FormGroup>
-        <FormGroup check>
+        </RadioGroup>
+        
+        <RadioGroup check>
           <Label check for="boyut-orta">
             <Input 
               type="radio" 
@@ -38,8 +63,9 @@ const SizeSelector = () => {
             />
             Orta
           </Label>
-        </FormGroup>
-        <FormGroup check>
+        </RadioGroup>
+
+        <RadioGroup check>
           <Label check for="boyut-buyuk">
             <Input 
               type="radio" 
@@ -51,12 +77,10 @@ const SizeSelector = () => {
             />
             Büyük
           </Label>
-        </FormGroup>
+        </RadioGroup>
       </FormGroup>
 
-      
-      <p>Seçilen Boyut: {selectedSize}</p>
-    </Form>
+    </SizeSelectorContainer>
   );
 };
 
