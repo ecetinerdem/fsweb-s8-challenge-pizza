@@ -54,7 +54,7 @@ const SizeSelector = () => {
         </FormGroup>
       </FormGroup>
 
-      {/* Display the selected size for testing or use in the form */}
+      
       <p>Seçilen Boyut: {selectedSize}</p>
     </Form>
   );
