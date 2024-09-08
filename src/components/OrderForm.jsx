@@ -1,25 +1,64 @@
-import React from 'react';
-import { Form, Input } from 'reactstrap';
+import React, { useState } from 'react';
+import { Col, FormGroup, Input, Label } from 'reactstrap';
 import Header from './Header';
 import PizzaDescription from './PizzaDescription';
 import SizeSelector from './SizeSelector';
 import HamurDropdown from './HamurDropdown';
 import styled from 'styled-components';
 
-// Styled component to position SizeSelector and HamurDropdown side by side
 const SizeAndCrustContainer = styled.div`
   display: flex;
-  justify-content: center;   /* Center the container */
-  align-items: flex-start;   /* Align items at the start */
+  justify-content: center;   
+  align-items: flex-start;   
   margin-top: 20px;
 `;
 
-// Style to control the HamurDropdown position
 const HamurDropdownWrapper = styled.div`
-  margin-left: 12rem;  /* Adjust this value to move HamurDropdown more to the right */
+  margin-left: 12rem;  
+`;
+
+
+const NoteContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 70%;
+  margin-top: 20px;
+  transform: translateX(43%);
+`;
+
+const NoteInnerContainer = styled.div`
+  width: 80%; 
+`;
+
+const StyledTextArea = styled(Input)`
+  width: 64%;
+  border: 1px solid lightgray; 
+  border-radius: 5px;
+  margin-bottom: 20px;
+
+  
+  &:focus {
+    border-color: lightgray; 
+    box-shadow: 0 0 5px lightblue; 
+    outline: none; 
+  }
+`;
+
+const BottomLine = styled.div`
+  width: 65%; 
+  border-bottom: 1px solid lightgray; 
+  margin: 0 auto; 
+  transform: translateX(-27%);
 `;
 
 export default function OrderForm() {
+  
+  const [note, setNote] = useState('');
+
+  const handleNoteChange = (event) => {
+    setNote(event.target.value);
+  };
+
   return (
     <>
       <div>
@@ -29,7 +68,6 @@ export default function OrderForm() {
         <PizzaDescription />
       </div>
 
-      {/* SizeSelector and HamurDropdown placed next to each other */}
       <SizeAndCrustContainer>
         <SizeSelector />
         <HamurDropdownWrapper>
@@ -37,10 +75,26 @@ export default function OrderForm() {
         </HamurDropdownWrapper>
       </SizeAndCrustContainer>
 
-      <div>
-        <h3>Sipariş notu</h3>
-        <Input type="text" />
-      </div>
+      <NoteContainer>
+        <NoteInnerContainer>
+          <h3>Sipariş notu</h3>
+          <FormGroup row>
+            <Label for="exampleText" sm={2} />
+            <Col sm={10}>
+              <StyledTextArea
+                id="exampleText"
+                name="text"
+                type="textarea"
+                placeholder='Siparişine eklemek istediğin bir not var mı?'
+                value={note} 
+                onChange={handleNoteChange} 
+              />
+              <BottomLine />
+            </Col>
+          </FormGroup>
+        </NoteInnerContainer>
+      </NoteContainer>
+
       <div>
         <div>counter</div>
         <div>card</div>
