@@ -82,6 +82,43 @@ const ToppingCheckbox = styled(Input)`
   margin-right: 10px;
 `;
 
+const CounterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+`;
+
+const Button = styled.button`
+  width: 30px;  /* Reduced width */
+  height: 30px;  /* Reduced height */
+  background-color: #FDC913;  /* Button background color */
+  border: none;
+  border-radius: 5px 0 0 5px;  /* Rounded left corners */
+  color: #000;
+  font-size: 1rem;  /* Adjust font size */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  
+  &:last-of-type {
+    border-radius: 0 5px 5px 0;  /* Rounded right corners */
+  }
+`;
+
+const AmountDisplay = styled.div`
+  width: 30px;  /* Match button size */
+  height: 30px;  /* Match button size */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;  /* Adjust font size */
+  background-color: #fff;  /* White background */
+  border: 1px solid #FDC913;  /* Border same as button color */
+  margin: 0 -1px;  /* Remove gap between buttons and display */
+`;
+
 const toppings = [
   'Peperoni', 'Domates', 'Biber', 'Sosis', 'Mısır',
   'Sucuk', 'Kanada Jambonu', 'Acı Sucuk', 'Ananas',
@@ -91,6 +128,7 @@ const toppings = [
 export default function OrderForm() {
   const [note, setNote] = useState('');
   const [selectedToppings, setSelectedToppings] = useState([]);
+  const [quantity, setQuantity] = useState(1);
 
   const handleNoteChange = (event) => {
     setNote(event.target.value);
@@ -112,6 +150,11 @@ export default function OrderForm() {
   };
 
   const toppingPrice = selectedToppings.length * 5;
+
+  const increaseQuantity = () => setQuantity(prev => prev + 1);
+  const decreaseQuantity = () => {
+    if (quantity > 1) setQuantity(prev => prev - 1);
+  };
 
   return (
     <>
@@ -206,10 +249,12 @@ export default function OrderForm() {
         </NoteInnerContainer>
       </NoteContainer>
 
-      <div>
-        <div>counter</div>
-        <div>card</div>
-      </div>
+      {/* Quantity Counter Implementation */}
+      <CounterContainer>
+        <Button onClick={decreaseQuantity}>-</Button>
+        <AmountDisplay>{quantity}</AmountDisplay>
+        <Button onClick={increaseQuantity}>+</Button>
+      </CounterContainer>
     </>
   );
 }
