@@ -17,7 +17,6 @@ const HamurDropdownWrapper = styled.div`
   margin-left: 12rem;  
 `;
 
-
 const NoteContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -35,7 +34,6 @@ const StyledTextArea = styled(Input)`
   border: 1px solid lightgray; 
   border-radius: 5px;
   margin-bottom: 20px;
-
   
   &:focus {
     border-color: lightgray; 
@@ -51,13 +49,69 @@ const BottomLine = styled.div`
   transform: translateX(-27%);
 `;
 
+const ToppingSection = styled.div`
+  width: 50%;
+  margin-top: 20px;
+  transform: translateX(76%);
+`;
+
+const ToppingTitle = styled.h3`
+  margin-bottom: 10px;
+`;
+
+const ToppingParagraph = styled.p`
+  margin-bottom: 10px;
+  color: #5F5F5F; 
+`;
+
+const ToppingColumns = styled.div`
+  display: flex;
+  gap: 8px; 
+  flex-wrap: wrap;
+`;
+
+const ToppingColumn = styled.div`
+  flex: 1;
+  max-width: calc(33.333% - 8px); 
+  display: flex;
+  flex-direction: column;
+  gap: 12px; 
+`;
+
+const ToppingCheckbox = styled(Input)`
+  margin-right: 10px;
+`;
+
+const toppings = [
+  'Peperoni', 'Domates', 'Biber', 'Sosis', 'Mısır',
+  'Sucuk', 'Kanada Jambonu', 'Acı Sucuk', 'Ananas',
+  'Tavuk Izgara', 'Jalapeno', 'Kabak', 'Soğan', 'Sarımsak'
+];
+
 export default function OrderForm() {
-  
   const [note, setNote] = useState('');
+  const [selectedToppings, setSelectedToppings] = useState([]);
 
   const handleNoteChange = (event) => {
     setNote(event.target.value);
   };
+
+  const handleToppingChange = (event) => {
+    const topping = event.target.value;
+    if (selectedToppings.includes(topping)) {
+      setSelectedToppings(selectedToppings.filter(item => item !== topping));
+    } else {
+      if (selectedToppings.length < 10) {
+        setSelectedToppings([...selectedToppings, topping]);
+      }
+    }
+  };
+
+  const isToppingDisabled = (topping) => {
+    return selectedToppings.length >= 10 && !selectedToppings.includes(topping);
+  };
+
+  const toppingPrice = selectedToppings.length * 5;
 
   return (
     <>
@@ -74,6 +128,63 @@ export default function OrderForm() {
           <HamurDropdown />
         </HamurDropdownWrapper>
       </SizeAndCrustContainer>
+      <div>
+        <ToppingSection>
+          <ToppingTitle>Ek Malzemeler</ToppingTitle>
+          <ToppingParagraph>En fazla 10 malzeme seçebilirsiniz. 5₺</ToppingParagraph>
+          <ToppingColumns>
+            <ToppingColumn>
+              {toppings.slice(0, 5).map((topping) => (
+                <FormGroup check key={topping}>
+                  <Label check>
+                    <ToppingCheckbox
+                      type="checkbox"
+                      value={topping}
+                      checked={selectedToppings.includes(topping)}
+                      onChange={handleToppingChange}
+                      disabled={isToppingDisabled(topping)}
+                    />
+                    {topping}
+                  </Label>
+                </FormGroup>
+              ))}
+            </ToppingColumn>
+            <ToppingColumn>
+              {toppings.slice(5, 10).map((topping) => (
+                <FormGroup check key={topping}>
+                  <Label check>
+                    <ToppingCheckbox
+                      type="checkbox"
+                      value={topping}
+                      checked={selectedToppings.includes(topping)}
+                      onChange={handleToppingChange}
+                      disabled={isToppingDisabled(topping)}
+                    />
+                    {topping}
+                  </Label>
+                </FormGroup>
+              ))}
+            </ToppingColumn>
+            <ToppingColumn>
+              {toppings.slice(10).map((topping) => (
+                <FormGroup check key={topping}>
+                  <Label check>
+                    <ToppingCheckbox
+                      type="checkbox"
+                      value={topping}
+                      checked={selectedToppings.includes(topping)}
+                      onChange={handleToppingChange}
+                      disabled={isToppingDisabled(topping)}
+                    />
+                    {topping}
+                  </Label>
+                </FormGroup>
+              ))}
+            </ToppingColumn>
+          </ToppingColumns>
+          <p>Toplam Fiyat: {toppingPrice}₺</p>
+        </ToppingSection>
+      </div>
 
       <NoteContainer>
         <NoteInnerContainer>
