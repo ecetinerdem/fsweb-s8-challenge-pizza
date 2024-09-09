@@ -1,123 +1,43 @@
 import React, { useState } from 'react';
-import { Col, FormGroup, Input, Label } from 'reactstrap';
-import Header from './Header';
-import PizzaDescription from './PizzaDescription';
-import SizeSelector from './SizeSelector';
-import HamurDropdown from './HamurDropdown';
-import styled from 'styled-components';
+import {
+  Col,
+  FormGroup,
+  Input,
+  Form,
+  Label,
+} from 'reactstrap';
 
-const SizeAndCrustContainer = styled.div`
-  display: flex;
-  justify-content: center;   
-  align-items: flex-start;   
-  margin-top: 20px;
-`;
+import {
+  HeadDiv,
+  H1,
+  AnchorContainer,
+  StyledLink,
+  PositionDiv,
+  Positionh3,
+  FirstParagraph,
+  RightParagraphContainer,
+  RightParagraph,
+  LastParagraph,
+  SizeAndCrustContainer,
+  StyledHeading,
+  RadioGroup,
+  SizeSelectorContainer,
+  HamurDropdownWrapper,
+  NoteContainer,
+  NoteInnerContainer,
+  StyledTextArea,
+  BottomLine,
+  ToppingSection,
+  ToppingTitle,
+  ToppingParagraph,
+  ToppingColumns,
+  ToppingColumn,
+  ToppingCheckbox,
+  CounterContainer,
+  Button,
+  AmountDisplay,
+} from './OrderFormStyles';
 
-const HamurDropdownWrapper = styled.div`
-  margin-left: 12rem;  
-`;
-
-const NoteContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 70%;
-  margin-top: 20px;
-  transform: translateX(43%);
-`;
-
-const NoteInnerContainer = styled.div`
-  width: 80%; 
-`;
-
-const StyledTextArea = styled(Input)`
-  width: 64%;
-  border: 1px solid lightgray; 
-  border-radius: 5px;
-  margin-bottom: 20px;
-  
-  &:focus {
-    border-color: lightgray; 
-    box-shadow: 0 0 5px lightblue; 
-    outline: none; 
-  }
-`;
-
-const BottomLine = styled.div`
-  width: 65%; 
-  border-bottom: 1px solid lightgray; 
-  margin: 0 auto; 
-  transform: translateX(-27%);
-`;
-
-const ToppingSection = styled.div`
-  width: 50%;
-  margin-top: 20px;
-  transform: translateX(76%);
-`;
-
-const ToppingTitle = styled.h3`
-  margin-bottom: 10px;
-`;
-
-const ToppingParagraph = styled.p`
-  margin-bottom: 10px;
-  color: #5F5F5F; 
-`;
-
-const ToppingColumns = styled.div`
-  display: flex;
-  gap: 8px; 
-  flex-wrap: wrap;
-`;
-
-const ToppingColumn = styled.div`
-  flex: 1;
-  max-width: calc(33.333% - 8px); 
-  display: flex;
-  flex-direction: column;
-  gap: 12px; 
-`;
-
-const ToppingCheckbox = styled(Input)`
-  margin-right: 10px;
-`;
-
-const CounterContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-`;
-
-const Button = styled.button`
-  width: 30px;  /* Reduced width */
-  height: 30px;  /* Reduced height */
-  background-color: #FDC913;  /* Button background color */
-  border: none;
-  border-radius: 5px 0 0 5px;  /* Rounded left corners */
-  color: #000;
-  font-size: 1rem;  /* Adjust font size */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  
-  &:last-of-type {
-    border-radius: 0 5px 5px 0;  /* Rounded right corners */
-  }
-`;
-
-const AmountDisplay = styled.div`
-  width: 30px;  /* Match button size */
-  height: 30px;  /* Match button size */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1rem;  /* Adjust font size */
-  background-color: #fff;  /* White background */
-  border: 1px solid #FDC913;  /* Border same as button color */
-  margin: 0 -1px;  /* Remove gap between buttons and display */
-`;
 
 const toppings = [
   'Peperoni', 'Domates', 'Biber', 'Sosis', 'Mısır',
@@ -126,9 +46,16 @@ const toppings = [
 ];
 
 export default function OrderForm() {
+  const [selectedSize, setSelectedSize] = useState('');
   const [note, setNote] = useState('');
   const [selectedToppings, setSelectedToppings] = useState([]);
   const [quantity, setQuantity] = useState(1);
+
+
+  const handleSizeSelect = (event) => {
+    setSelectedSize(event.target.value);
+  };
+  
 
   const handleNoteChange = (event) => {
     setNote(event.target.value);
@@ -159,18 +86,84 @@ export default function OrderForm() {
   return (
     <>
       <div>
-        <Header />
+        <HeadDiv>
+          <H1>Teknolojik Yemekler</H1>
+          <AnchorContainer>
+            <StyledLink to="/">Anasayfa</StyledLink>-
+            <StyledLink to="/orderform">Sipariş oluştur</StyledLink>
+          </AnchorContainer>
+        </HeadDiv>
       </div>
       <div>
-        <PizzaDescription />
+        <PositionDiv>
+          <Positionh3>Pozistion Absolute Acı Pizza</Positionh3>
+          <FirstParagraph>85.50₺</FirstParagraph>
+          <RightParagraphContainer>
+            <RightParagraph>4.9</RightParagraph>
+            <RightParagraph>(200)</RightParagraph>
+          </RightParagraphContainer>
+        </PositionDiv>
+        <LastParagraph>
+          FrontEnd Dev olarak hala position:absolute kullanıyorsan. Bu çok acı pizza tam sana göre.
+          Pizza, domates, peynir ve genellikle çeşitli diğer malzemelerle kaplanmış,
+          daha sonra geleneksel olarak odun ateşinde bir fırında yüksek sıcaklıkta pişirilen,
+          genellikle yuvarlak, düzleştirilmiş mayalı buğday bazlı hamurdan oluşan Italyan kökenli lezzetli bir yemektir.
+          Küçük bir pizzaya bazen pizzetta denir.
+        </LastParagraph>
+      </div>
+      <div>
+        <SizeSelectorContainer>
+          <FormGroup>
+            
+            <StyledHeading>Boyut Seç</StyledHeading>
+
+            
+            <RadioGroup check>
+              <Label check for="boyut-kucuk">
+                <Input 
+                  type="radio" 
+                  name="boyut" 
+                  value="Küçük" 
+                  id="boyut-kucuk"
+                  onChange={handleSizeSelect} 
+                  checked={selectedSize === 'Küçük'} 
+                />
+                Küçük
+              </Label>
+            </RadioGroup>
+            
+            <RadioGroup check>
+              <Label check for="boyut-orta">
+                <Input 
+                  type="radio" 
+                  name="boyut" 
+                  value="Orta" 
+                  id="boyut-orta"
+                  onChange={handleSizeSelect} 
+                  checked={selectedSize === 'Orta'}
+                />
+                Orta
+              </Label>
+            </RadioGroup>
+
+            <RadioGroup check>
+              <Label check for="boyut-buyuk">
+                <Input 
+                  type="radio" 
+                  name="boyut" 
+                  value="Büyük" 
+                  id="boyut-buyuk"
+                  onChange={handleSizeSelect} 
+                  checked={selectedSize === 'Büyük'}
+                />
+                Büyük
+              </Label>
+            </RadioGroup>
+          </FormGroup>
+
+        </SizeSelectorContainer>
       </div>
 
-      <SizeAndCrustContainer>
-        <SizeSelector />
-        <HamurDropdownWrapper>
-          <HamurDropdown />
-        </HamurDropdownWrapper>
-      </SizeAndCrustContainer>
       <div>
         <ToppingSection>
           <ToppingTitle>Ek Malzemeler</ToppingTitle>
@@ -228,26 +221,28 @@ export default function OrderForm() {
           <p>Toplam Fiyat: {toppingPrice}₺</p>
         </ToppingSection>
       </div>
+      <div>
+        <NoteContainer>
+          <NoteInnerContainer>
+            <h3>Sipariş notu</h3>
+            <FormGroup row>
+              <Label for="exampleText" sm={2} />
+              <Col sm={10}>
+                <StyledTextArea
+                  id="exampleText"
+                  name="text"
+                  type="textarea"
+                  placeholder='Siparişine eklemek istediğin bir not var mı?'
+                  value={note} 
+                  onChange={handleNoteChange} 
+                />
+                <BottomLine />
+              </Col>
+            </FormGroup>
+          </NoteInnerContainer>
+        </NoteContainer>
+      </div>
 
-      <NoteContainer>
-        <NoteInnerContainer>
-          <h3>Sipariş notu</h3>
-          <FormGroup row>
-            <Label for="exampleText" sm={2} />
-            <Col sm={10}>
-              <StyledTextArea
-                id="exampleText"
-                name="text"
-                type="textarea"
-                placeholder='Siparişine eklemek istediğin bir not var mı?'
-                value={note} 
-                onChange={handleNoteChange} 
-              />
-              <BottomLine />
-            </Col>
-          </FormGroup>
-        </NoteInnerContainer>
-      </NoteContainer>
 
       {/* Quantity Counter Implementation */}
       <div>
