@@ -94,33 +94,33 @@ const CounterContainer = styled.div`
 `;
 
 const Button = styled.button`
-  width: 30px;  /* Reduced width */
-  height: 30px;  /* Reduced height */
-  background-color: #FDC913;  /* Button background color */
+  width: 30px;  
+  height: 30px;  
+  background-color: #FDC913;  
   border: none;
-  border-radius: 5px 0 0 5px;  /* Rounded left corners */
+  border-radius: 5px 0 0 5px;  
   color: #000;
-  font-size: 1rem;  /* Adjust font size */
+  font-size: 1rem;  
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   
   &:last-of-type {
-    border-radius: 0 5px 5px 0;  /* Rounded right corners */
+    border-radius: 0 5px 5px 0;  
   }
 `;
 
 const AmountDisplay = styled.div`
-  width: 30px;  /* Match button size */
-  height: 30px;  /* Match button size */
+  width: 30px;  
+  height: 30px;  
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1rem;  /* Adjust font size */
-  background-color: #fff;  /* White background */
-  border: 1px solid #FDC913;  /* Border same as button color */
-  margin: 0 -1px;  /* Remove gap between buttons and display */
+  font-size: 1rem;  
+  background-color: #fff;  
+  border: 1px solid #FDC913;  
+  margin: 0 -1px;  
 `;
 
 const CardContainer = styled.div`
@@ -131,8 +131,8 @@ const CardContainer = styled.div`
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  position: relative; /* Enables positioning of button inside */
-  padding-bottom: 60px; /* Space for the button */
+  position: relative; 
+  padding-bottom: 60px; 
 `;
 
 const CardTitle = styled.h3`
@@ -150,15 +150,15 @@ const OrderButton = styled.button`
   width: 100%;
   padding: 10px 0;
   background-color: #FDC913;
-  color: black; /* Black text for the button */
+  color: black; 
   font-weight: bold;
   border: none;
-  border-radius: 0 0 5px 5px; /* Rounded bottom corners */
+  border-radius: 0 0 5px 5px; 
   cursor: pointer;
   font-size: 1.2rem;
-  position: absolute; /* Absolute positioning */
-  bottom: 0; /* Positioned at the bottom */
-  left: 0; /* Ensure it spans the full width */
+  position: absolute; 
+  bottom: 0; 
+  left: 0; 
   
   &:hover {
     background-color: #e6b000;
@@ -169,9 +169,9 @@ const HorizontalContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 160px; /* Increased gap between counter and card */
+  gap: 160px; 
   margin-top: 20px;
-  padding-left: 120px; /* Slightly moved it to the right */
+  padding-left: 120px; 
   width: 95%;
 `;
 
@@ -185,7 +185,7 @@ const toppings = [
 export default function OrderForm() {
   const [note, setNote] = useState('');
   const [selectedToppings, setSelectedToppings] = useState([]);
-  const [quantity, setQuantity] = useState(1); // Default quantity is 1
+  const [quantity, setQuantity] = useState(1); 
 
   
   const notify2 = () => {
@@ -215,10 +215,10 @@ export default function OrderForm() {
 
   const toppingPrice = selectedToppings.length * 5;
 
-  // Base price of a pizza (85.50₺)
+  
   const pizzaBasePrice = 85.50;
 
-  // Calculate total price based on quantity and topping price
+  
   const totalPrice = (pizzaBasePrice + toppingPrice) * quantity;
 
   const increaseQuantity = () => setQuantity(prev => prev + 1);
@@ -320,7 +320,6 @@ export default function OrderForm() {
         </NoteInnerContainer>
       </NoteContainer>
 
-      {/* Quantity Counter Implementation */}
       <HorizontalContainer>
         <div>
           <CounterContainer>
