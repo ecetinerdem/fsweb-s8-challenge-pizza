@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 const SizeAndCrustContainer = styled.div`
@@ -150,18 +151,26 @@ const OrderButton = styled.button`
   width: 100%;
   padding: 10px 0;
   background-color: #FDC913;
-  color: black; 
+  color: black;
   font-weight: bold;
   border: none;
-  border-radius: 0 0 5px 5px; 
+  border-radius: 0 0 5px 5px;
   cursor: pointer;
   font-size: 1.2rem;
-  position: absolute; 
-  bottom: 0; 
-  left: 0; 
-  
-  &:hover {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transition: all 0.3s ease;
+
+  &:hover:not(:disabled) {
     background-color: #e6b000;
+  }
+
+  &:disabled {
+    background-color: #D3D3D3;
+    color: #808080;
+    cursor: not-allowed;
+    opacity: 0.7;
   }
 `;
 
@@ -175,6 +184,35 @@ const HorizontalContainer = styled.div`
   width: 95%;
 `;
 
+const StyledInput = styled.input`
+  width: 100%;
+  padding: 10px;
+  border: 1px solid lightgray; 
+  border-radius: 4px;
+  margin-top: 8px; 
+  font-size: 1rem;
+  
+  &:focus {
+    border-color: #000; 
+    outline: none;
+  }
+`;
+
+
+const StyledLabel = styled.label`
+  display: block;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #000; 
+  margin-bottom: 4px;
+`;
+
+const Note = styled.p`
+  color: lightgray;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+`;
+
 
 const toppings = [
   'Peperoni', 'Domates', 'Biber', 'Sosis', 'Mısır',
@@ -185,23 +223,65 @@ const toppings = [
 export default function OrderForm() {
   const [note, setNote] = useState('');
   const [selectedToppings, setSelectedToppings] = useState([]);
+  const [name, setName] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState(''); 
   const [selectedOption, setSelectedOption] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
-    if (selectedSize && selectedOption && selectedToppings.length === 3) {
+    if (
+      selectedSize &&
+      selectedOption &&
+      selectedToppings.length >= 4 && 
+      selectedToppings.length <= 10
+    ) {
       setIsFormValid(true);
     } else {
       setIsFormValid(false);
     }
   }, [selectedSize, selectedOption, selectedToppings]);
 
+
+  const handleNameChange = (event) => {
+    const inputValue = event.target.value;
+    if (inputValue.length <= 3) {
+      setName(inputValue); 
+    }
+  };
+
   const notify2 = () => {
     toast.success("Siparişini aldık!", {
       position: "top-right"
     });
+  };
+
+  const handleOrderSubmit = async () => {
+    
+    const orderData = {
+      name,
+      selectedSize,
+      selectedOption,
+      selectedToppings,
+      note,
+      quantity,
+      totalPrice
+    };
+  
+    try {
+      
+      const response = await axios.post('https://reqres.in/api/pizza', orderData);
+      
+      
+      notify2();  
+      console.log('Sipariş başarıyla alındı:', response.data);
+    } catch (error) {
+      
+      toast.error('Sipariş gönderilirken bir hata oluştu. Lütfen tekrar deneyin.', {
+        position: "top-right"
+      });
+      console.error('Siparişi alırken hata oluştu:', error);
+    }
   };
 
   const handleNoteChange = (event) => {
@@ -213,14 +293,14 @@ export default function OrderForm() {
     if (selectedToppings.includes(topping)) {
       setSelectedToppings(selectedToppings.filter(item => item !== topping));
     } else {
-      if (selectedToppings.length < 3) {
+      if (selectedToppings.length < 10) {
         setSelectedToppings([...selectedToppings, topping]);
       }
     }
   };
 
   const isToppingDisabled = (topping) => {
-    return selectedToppings.length >= 3 && !selectedToppings.includes(topping);
+    return selectedToppings.length >= 10 && !selectedToppings.includes(topping);
   };
 
   const toppingPrice = selectedToppings.length * 5;
@@ -304,11 +384,26 @@ export default function OrderForm() {
               ))}
             </ToppingColumn>
           </ToppingColumns>
-          <p>Toplam Fiyat: {toppingPrice}₺</p>
+          <br />
         </ToppingSection>
       </div>
 
-      <NoteContainer>
+      <div style={{ width: '300px', margin: '0 620px' }}> 
+      <FormGroup>
+        <StyledLabel htmlFor="nameInput">İsim</StyledLabel>
+        <StyledInput
+          type="text"
+          id="nameInput"
+          placeholder=""
+          value={name}
+          onChange={handleNameChange}
+          maxLength={3} 
+        />
+      </FormGroup>
+    </div>
+
+      <div>
+        <NoteContainer>
         <NoteInnerContainer>
           <h3>Sipariş notu</h3>
           <FormGroup row>
@@ -327,6 +422,7 @@ export default function OrderForm() {
           </FormGroup>
         </NoteInnerContainer>
       </NoteContainer>
+      </div>
 
       <HorizontalContainer>
         <div>
@@ -342,7 +438,7 @@ export default function OrderForm() {
             <p>Seçimler: {toppingPrice}₺</p>
             <TotalAmountText>Toplam: {totalPrice.toFixed(2)}₺</TotalAmountText>
             <Link to="/ordercomplete">
-              <OrderButton onClick={notify2} disabled={!isFormValid}>SİPARİŞ VER</OrderButton>
+              <OrderButton onClick={handleOrderSubmit} disabled={!isFormValid}>SİPARİŞ VER</OrderButton>
             </Link>
           </CardContainer>
         </div>
