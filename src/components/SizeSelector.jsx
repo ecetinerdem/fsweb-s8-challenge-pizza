@@ -23,8 +23,8 @@ const SizeSelectorContainer = styled(Form)`
   margin-top: 10px;   
 `;
 
-const SizeSelector = () => {
-  const [selectedSize, setSelectedSize] = useState('');
+const SizeSelector = (props) => {
+  const {selectedSize, setSelectedSize} = props;
 
   const handleSizeSelect = (event) => {
     setSelectedSize(event.target.value);

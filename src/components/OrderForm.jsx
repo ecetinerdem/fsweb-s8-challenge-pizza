@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, FormGroup, Input, Label } from 'reactstrap';
 import Header from './Header';
 import PizzaDescription from './PizzaDescription';
@@ -185,9 +185,19 @@ const toppings = [
 export default function OrderForm() {
   const [note, setNote] = useState('');
   const [selectedToppings, setSelectedToppings] = useState([]);
-  const [quantity, setQuantity] = useState(1); 
+  const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState(''); // Add state for size
+  const [selectedOption, setSelectedOption] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  
+  useEffect(() => {
+    if (selectedSize && selectedOption && selectedToppings.length === 3) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [selectedSize, selectedOption, selectedToppings]);
+
   const notify2 = () => {
     toast.success("Siparişini aldık!", {
       position: "top-right"
@@ -203,22 +213,20 @@ export default function OrderForm() {
     if (selectedToppings.includes(topping)) {
       setSelectedToppings(selectedToppings.filter(item => item !== topping));
     } else {
-      if (selectedToppings.length < 10) {
+      if (selectedToppings.length < 3) {
         setSelectedToppings([...selectedToppings, topping]);
       }
     }
   };
 
   const isToppingDisabled = (topping) => {
-    return selectedToppings.length >= 10 && !selectedToppings.includes(topping);
+    return selectedToppings.length >= 3 && !selectedToppings.includes(topping);
   };
 
   const toppingPrice = selectedToppings.length * 5;
 
-  
   const pizzaBasePrice = 85.50;
 
-  
   const totalPrice = (pizzaBasePrice + toppingPrice) * quantity;
 
   const increaseQuantity = () => setQuantity(prev => prev + 1);
@@ -236,9 +244,9 @@ export default function OrderForm() {
       </div>
 
       <SizeAndCrustContainer>
-        <SizeSelector />
+        <SizeSelector selectedSize={selectedSize} setSelectedSize={setSelectedSize} />
         <HamurDropdownWrapper>
-          <HamurDropdown />
+          <HamurDropdown setSelectedOption={setSelectedOption} selectedOption={selectedOption} />
         </HamurDropdownWrapper>
       </SizeAndCrustContainer>
       
@@ -334,7 +342,7 @@ export default function OrderForm() {
             <p>Seçimler: {toppingPrice}₺</p>
             <TotalAmountText>Toplam: {totalPrice.toFixed(2)}₺</TotalAmountText>
             <Link to="/ordercomplete">
-            <OrderButton onClick={notify2}>SİPARİŞ VER</OrderButton>
+              <OrderButton onClick={notify2} disabled={!isFormValid}>SİPARİŞ VER</OrderButton>
             </Link>
           </CardContainer>
         </div>
@@ -342,4 +350,3 @@ export default function OrderForm() {
     </>
   );
 }
-

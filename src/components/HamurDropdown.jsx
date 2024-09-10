@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-const HamurDropdown = () => {
-  const [selectedOption, setSelectedOption] = useState('');
+const HamurDropdown = (props) => {
+  const {selectedOption, setSelectedOption} = props
 
   const handleSelect = (event) => {
     setSelectedOption(event.target.value);
