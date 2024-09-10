@@ -186,7 +186,7 @@ export default function OrderForm() {
   const [note, setNote] = useState('');
   const [selectedToppings, setSelectedToppings] = useState([]);
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState(''); // Add state for size
+  const [selectedSize, setSelectedSize] = useState(''); 
   const [selectedOption, setSelectedOption] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
 
