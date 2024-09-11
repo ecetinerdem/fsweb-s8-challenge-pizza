@@ -438,7 +438,7 @@ export default function OrderForm() {
             <p>Seçimler: {toppingPrice}₺</p>
             <TotalAmountText>Toplam: {totalPrice.toFixed(2)}₺</TotalAmountText>
             <Link to="/ordercomplete">
-              <OrderButton onClick={handleOrderSubmit} disabled={!isFormValid}>SİPARİŞ VER</OrderButton>
+              <OrderButton data-testid='order-form-button' onClick={handleOrderSubmit} disabled={!isFormValid}>SİPARİŞ VER</OrderButton>
             </Link>
           </CardContainer>
         </div>
